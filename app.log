@@ -1,0 +1,90 @@
+2025-08-23 16:31:14,868 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 16:31:14,869 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 16:32:23,682 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 16:32:23,682 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 16:32:31,984 - primp - INFO - response: https://en.wikipedia.org/w/api.php?action=opensearch&profile=fuzzy&limit=1&search=Mumbai%20travel%20guide%202024 200
+2025-08-23 16:32:32,723 - primp - INFO - response: https://www.mojeek.com/search?q=Mumbai+travel+guide+2024 200
+2025-08-23 16:33:19,248 - primp - INFO - response: https://en.wikipedia.org/w/api.php?action=opensearch&profile=fuzzy&limit=1&search=Mumbai%20attractions%20hotels%20restaurants 200
+2025-08-23 16:33:19,522 - primp - INFO - response: https://search.yahoo.com/search;_ylt=TrFmLwnSkSjHC-C4Xb48ebv-;_ylu=tPdt2jhZIGS1A30vb6aQVcKjfDUXMrsu-nNR1pJ5q2WN_Cw?p=Mumbai+attractions+hotels+restaurants 200
+2025-08-23 16:34:35,810 - ai_integration - INFO - Successfully generated itinerary using mistralai/Mixtral-8x7B-Instruct-v0.1
+2025-08-23 16:34:35,817 - __main__ - INFO - Itinerary generated in 127.26 seconds for Mumbai
+2025-08-23 16:35:33,583 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 16:35:33,584 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 16:43:18,284 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 16:43:18,285 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 16:43:23,345 - __main__ - INFO - Using cached itinerary for Mumbai
+2025-08-23 16:45:09,813 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 16:45:09,814 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 16:45:18,720 - primp - INFO - response: https://en.wikipedia.org/w/api.php?action=opensearch&profile=fuzzy&limit=1&search=dubai%20travel%20guide%202024 200
+2025-08-23 16:45:19,388 - primp - INFO - response: https://yandex.com/search/site/?text=dubai+travel+guide+2024&web=1&searchid=6718633 200
+2025-08-23 16:46:01,393 - ai_integration - INFO - Successfully generated itinerary using mistralai/Mixtral-8x7B-Instruct-v0.1
+2025-08-23 16:46:01,398 - __main__ - INFO - Itinerary generated in 46.77 seconds for dubai
+2025-08-23 16:47:18,401 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 16:47:18,403 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 16:47:28,090 - primp - INFO - response: https://en.wikipedia.org/w/api.php?action=opensearch&profile=fuzzy&limit=1&search=dubai%20travel%20guide%202024 200
+2025-08-23 16:47:28,942 - primp - INFO - response: https://yandex.com/search/site/?text=dubai+travel+guide+2024&web=1&searchid=2320558 200
+2025-08-23 16:47:49,015 - ai_integration - INFO - Successfully generated itinerary using mistralai/Mixtral-8x7B-Instruct-v0.1
+2025-08-23 16:47:49,047 - __main__ - INFO - Itinerary generated in 25.14 seconds for dubai
+2025-08-23 17:20:33,045 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 17:20:33,046 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 17:21:37,809 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 17:21:37,810 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 17:21:53,612 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 17:21:53,613 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 17:38:54,413 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 17:38:54,414 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 17:40:06,604 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 17:40:06,604 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 17:41:55,437 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 17:41:55,438 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 17:41:59,702 - __main__ - INFO - Using cached itinerary for dubai
+2025-08-23 17:50:07,045 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 17:50:07,046 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:13:27,388 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:13:27,388 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:14:26,383 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:14:26,384 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:15:07,689 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:15:07,689 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:16:01,754 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:16:01,755 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:18:08,446 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:18:08,447 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:18:36,048 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:18:36,049 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:20:00,960 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:20:00,960 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:20:33,593 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:20:33,593 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:21:08,651 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:21:08,652 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:22:41,671 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:22:41,672 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:23:24,281 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:23:24,282 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:25:21,732 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:25:21,732 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:28:41,013 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:28:41,014 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:30:16,781 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:30:16,782 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:30:43,168 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:30:43,168 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:31:41,459 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:31:41,460 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:34:17,100 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:34:17,100 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:34:38,393 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:34:38,393 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:35:24,399 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:35:24,400 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:39:54,575 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:39:54,575 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:41:20,035 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:41:20,035 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:42:47,190 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:42:47,190 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:43:19,218 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:43:19,218 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 18:59:14,309 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 18:59:14,309 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
