@@ -88,3 +88,6 @@
 2025-08-23 18:43:19,218 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
 2025-08-23 18:59:14,309 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
 2025-08-23 18:59:14,309 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 23:28:35,174 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-23 23:53:46,128 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-23 23:53:46,128 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
