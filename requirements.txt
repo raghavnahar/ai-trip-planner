@@ -7,3 +7,4 @@ sentence-transformers==2.2.2
 duckduckgo-search==3.9.4
 numpy==1.26.4
 annoy==1.17.3
+ddgs==1.0.7
