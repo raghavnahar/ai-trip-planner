@@ -91,3 +91,15 @@
 2025-08-23 23:28:35,174 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
 2025-08-23 23:53:46,128 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
 2025-08-23 23:53:46,128 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-24 01:15:59,390 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-24 01:15:59,391 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-24 01:17:29,263 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-08-24 01:17:29,263 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-24 01:17:39,871 - primp - INFO - response: https://search.yahoo.com/search;_ylt=UnDPbcW-iKWdM0tSZ9Zj9EUM;_ylu=amttUBPMDRcrTchkdiBchGdjxvJlE_a9yi7f6pt8sIfl6ws?p=dubai+travel+guide+2024 200
+2025-08-24 01:17:39,929 - primp - INFO - response: https://en.wikipedia.org/w/api.php?action=opensearch&profile=fuzzy&limit=1&search=dubai%20travel%20guide%202024 200
+2025-08-24 01:18:04,910 - primp - INFO - response: https://www.bing.com/search?q=dubai+attractions+hotels+restaurants&pq=dubai+attractions+hotels+restaurants&cc=en 200
+2025-08-24 01:18:04,966 - primp - INFO - response: https://en.wikipedia.org/w/api.php?action=opensearch&profile=fuzzy&limit=1&search=dubai%20attractions%20hotels%20restaurants 200
+2025-08-24 01:18:17,891 - vector_store - INFO - Annoy index built successfully
+2025-08-24 01:18:20,971 - urllib3.connectionpool - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=dubai&format=json&limit=1
+2025-08-24 01:18:53,962 - ai_integration - INFO - Successfully generated itinerary using mistralai/Mixtral-8x7B-Instruct-v0.1
+2025-08-24 01:18:53,965 - __main__ - INFO - Itinerary generated in 78.19 seconds for dubai

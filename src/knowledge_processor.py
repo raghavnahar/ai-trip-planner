@@ -54,8 +54,8 @@ class KnowledgeProcessor:
         for query in queries:
             results = self.vector_store.search(query, 3)  # Get top 3 for each query
             for doc, score, metadata in results:
-                # Avoid duplicate content
-                if doc not in all_results:
+                # Avoid duplicate content and ensure good relevance
+                if doc not in all_results and score > 0.6:  # Minimum similarity threshold
                     all_results.append(doc)
             
         # Limit the total information to avoid overwhelming the AI
