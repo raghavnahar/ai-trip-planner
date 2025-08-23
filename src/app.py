@@ -51,7 +51,7 @@ if 'generation_start_time' not in st.session_state:
 
 # App configuration
 st.set_page_config(
-    page_title="✈️ AI Travel Planner Pro",
+    page_title="✈️ AI Trip Planner Pro",
     page_icon="✈️",
     layout="wide",
     initial_sidebar_state="expanded"
@@ -79,7 +79,7 @@ with preloader.container():
             to {opacity: 1;}
         }
         </style>
-        <div class='centered-spinner'>🚀 Launching your AI Travel Planner Pro...</div>
+        <div class='centered-spinner'>🚀 Launching your AI Trip Planner Pro...</div>
     """, unsafe_allow_html=True)
 
     with st.spinner("Initializing the app..."):
@@ -140,7 +140,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # App title and description
-st.markdown('<h1 class="main-header">✈️ AI Travel Planner Pro</h1>', unsafe_allow_html=True)
+st.markdown('<h1 class="main-header">✈️ AI Trip Planner Pro</h1>', unsafe_allow_html=True)
 st.markdown("""
 <div style='text-align: center; margin-bottom: 2rem;'>
     Craft your perfect itinerary with AI-powered travel planning enhanced with real-time information!
