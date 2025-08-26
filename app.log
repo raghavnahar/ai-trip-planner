@@ -103,3 +103,186 @@
 2025-08-24 01:18:20,971 - urllib3.connectionpool - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=dubai&format=json&limit=1
 2025-08-24 01:18:53,962 - ai_integration - INFO - Successfully generated itinerary using mistralai/Mixtral-8x7B-Instruct-v0.1
 2025-08-24 01:18:53,965 - __main__ - INFO - Itinerary generated in 78.19 seconds for dubai
+2025-08-24 23:39:04,820 - primp - INFO - response: https://en.wikipedia.org/w/api.php?action=opensearch&profile=fuzzy&limit=1&search=Paris%20travel%20guide%202024 200
+2025-08-24 23:39:05,138 - primp - INFO - response: https://www.google.com/search?q=Paris+travel+guide+2024&filter=1&start=0&asearch=arc&async=arc_id%3Asrp_lgaNlggv53bPV5IZZtIkHIQ_100%2Cuse_ac%3Atrue%2C_fmt%3Aprog&ie=UTF-8&oe=UTF-8&hl=en-US&lr=lang_en&cr=countryUS 200
+2025-08-24 23:39:26,437 - vector_store - INFO - Annoy index built successfully
+2025-08-24 23:39:28,421 - urllib3.connectionpool - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Paris&format=json&limit=1
+2025-08-24 23:39:31,404 - urllib3.connectionpool - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'ReadTimeoutError("HTTPSConnectionPool(host='nominatim.openstreetmap.org', port=443): Read timed out. (read timeout=1)")': /search?q=Paris&format=json&limit=1
+2025-08-24 23:39:32,605 - ai_integration - ERROR - Unexpected error with mistralai/Mixtral-8x7B-Instruct-v0.1: 'InferenceClient' object has no attribute 'chat'
+2025-08-24 23:39:32,605 - ai_integration - INFO - Successfully generated itinerary using mistralai/Mixtral-8x7B-Instruct-v0.1
+2025-08-24 23:39:32,623 - __main__ - INFO - Itinerary generated in 32.44 seconds for Paris
+2025-08-24 23:49:27,486 - __main__ - INFO - Using cached itinerary for Jaipur
+2025-08-24 23:50:00,108 - primp - INFO - response: https://search.yahoo.com/search;_ylt=lX8AMZtXaPnZyFsYuWsZR5iH;_ylu=0grDq1j4QyFS08pCRyQ9GTq-4vezJIHXbJTXfbOHjY7dsPc?p=france+travel+guide+2024 200
+2025-08-24 23:50:00,189 - primp - INFO - response: https://en.wikipedia.org/w/api.php?action=opensearch&profile=fuzzy&limit=1&search=france%20travel%20guide%202024 200
+2025-08-24 23:50:34,005 - primp - INFO - response: https://search.yahoo.com/search;_ylt=RdRbRY9uQd_mi-gOvYUfcoX7;_ylu=T-p7PB6wfndiVgEJJ424DRfD_3-XtcnN7HZRhmlqxsvH1xw?p=france+attractions+hotels+restaurants 200
+2025-08-24 23:50:34,105 - primp - INFO - response: https://en.wikipedia.org/w/api.php?action=opensearch&profile=fuzzy&limit=1&search=france%20attractions%20hotels%20restaurants 200
+2025-08-24 23:50:42,672 - vector_store - INFO - Annoy index built successfully
+2025-08-24 23:50:47,939 - ai_integration - INFO - Generating with mistralai/Mixtral-8x7B-Instruct-v0.1 (attempt 1/2)
+2025-08-24 23:50:48,406 - ai_integration - ERROR - Model not found or access denied: mistralai/Mixtral-8x7B-Instruct-v0.1: 404 Client Error: Not Found for url: https://api-inference.huggingface.co/models/mistralai/Mixtral-8x7B-Instruct-v0.1 (Request ID: Root=1-68ab5800-49004ed62954278f0238916b;d02dd18f-e741-4e3a-ae54-a0600a3a3560)
+2025-08-24 23:50:48,406 - ai_integration - ERROR - Permanent error from mistralai/Mixtral-8x7B-Instruct-v0.1: Error: Model mistralai/Mixtral-8x7B-Instruct-v0.1 not found or access denied.
+2025-08-24 23:50:48,406 - ai_integration - INFO - All attempts for mistralai/Mixtral-8x7B-Instruct-v0.1 exhausted, moving on.
+2025-08-24 23:50:48,406 - ai_integration - INFO - Generating with HuggingFaceH4/zephyr-7b-beta (attempt 1/2)
+2025-08-24 23:50:49,108 - ai_integration - ERROR - Model not found or access denied: HuggingFaceH4/zephyr-7b-beta: 404 Client Error: Not Found for url: https://api-inference.huggingface.co/models/HuggingFaceH4/zephyr-7b-beta (Request ID: Root=1-68ab5801-286cdc845360a4f5129446c9;c22cbedb-c90d-49ed-99ec-276e40305a26)
+2025-08-24 23:50:49,108 - ai_integration - ERROR - Permanent error from HuggingFaceH4/zephyr-7b-beta: Error: Model HuggingFaceH4/zephyr-7b-beta not found or access denied.
+2025-08-24 23:50:49,108 - ai_integration - INFO - All attempts for HuggingFaceH4/zephyr-7b-beta exhausted, moving on.
+2025-08-24 23:50:49,108 - ai_integration - INFO - Generating with google/flan-t5-large (attempt 1/2)
+2025-08-24 23:50:49,392 - ai_integration - ERROR - Model not found or access denied: google/flan-t5-large: 404 Client Error: Not Found for url: https://api-inference.huggingface.co/models/google/flan-t5-large (Request ID: Root=1-68ab5801-67c5edeb588a54915d14904c;ebd2bb73-1453-4a78-ba5f-a77fb0b6af17)
+2025-08-24 23:50:49,405 - ai_integration - ERROR - Permanent error from google/flan-t5-large: Error: Model google/flan-t5-large not found or access denied.
+2025-08-24 23:50:49,406 - ai_integration - INFO - All attempts for google/flan-t5-large exhausted, moving on.
+2025-08-24 23:50:49,406 - ai_integration - INFO - Generating with tiiuae/falcon-7b-instruct (attempt 1/2)
+2025-08-24 23:50:49,691 - ai_integration - ERROR - Model not found or access denied: tiiuae/falcon-7b-instruct: 404 Client Error: Not Found for url: https://api-inference.huggingface.co/models/tiiuae/falcon-7b-instruct (Request ID: Root=1-68ab5802-2e13f2da0ba837226ba75c60;fa533d9e-519d-4087-b52d-5832531f061e)
+2025-08-24 23:50:49,691 - ai_integration - ERROR - Permanent error from tiiuae/falcon-7b-instruct: Error: Model tiiuae/falcon-7b-instruct not found or access denied.
+2025-08-24 23:50:49,691 - ai_integration - INFO - All attempts for tiiuae/falcon-7b-instruct exhausted, moving on.
+2025-08-24 23:50:49,691 - ai_integration - WARNING - HF models failed or unavailable; trying OpenAI fallback (if configured).
+2025-08-24 23:50:49,691 - ai_integration - ERROR - All model options failed; returning deterministic fallback itinerary.
+2025-08-24 23:50:53,056 - __main__ - INFO - Itinerary generated in 56.98 seconds for france
+2025-08-25 00:30:20,168 - primp - INFO - response: https://en.wikipedia.org/w/api.php?action=opensearch&profile=fuzzy&limit=1&search=Paris%20travel%20guide%202024 200
+2025-08-25 00:30:20,953 - primp - INFO - response: https://search.brave.com/search?q=Paris+travel+guide+2024&source=web 200
+2025-08-25 00:30:48,084 - vector_store - INFO - Annoy index built successfully
+2025-08-25 00:30:52,369 - ai_integration - INFO - Generating with mistralai/Mistral-7B-Instruct-v0.2 (attempt 1/2)
+2025-08-25 00:30:52,835 - ai_integration - ERROR - Model not found or access denied: mistralai/Mistral-7B-Instruct-v0.2: 404 Client Error: Not Found for url: https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2 (Request ID: Root=1-68ab6165-2da199bc162499ba19971a06;4cb2822a-f980-4422-9de8-393464ea9cb6)
+2025-08-25 00:30:52,835 - ai_integration - ERROR - Permanent error from mistralai/Mistral-7B-Instruct-v0.2: Error: Model mistralai/Mistral-7B-Instruct-v0.2 not found or access denied.
+2025-08-25 00:30:52,835 - ai_integration - INFO - All attempts for mistralai/Mistral-7B-Instruct-v0.2 exhausted, moving on.
+2025-08-25 00:30:52,835 - ai_integration - WARNING - HF models failed or unavailable; trying OpenAI fallback (if configured).
+2025-08-25 00:30:52,846 - ai_integration - ERROR - All model options failed; returning deterministic fallback itinerary.
+2025-08-25 00:30:56,534 - __main__ - INFO - Itinerary generated in 40.22 seconds for Paris
+2025-08-25 00:38:51,970 - primp - INFO - response: https://en.wikipedia.org/w/api.php?action=opensearch&profile=fuzzy&limit=1&search=Japan%20travel%20guide%202024 200
+2025-08-25 00:38:52,719 - primp - INFO - response: https://www.mojeek.com/search?q=Japan+travel+guide+2024 200
+2025-08-25 00:39:09,969 - vector_store - INFO - Annoy index built successfully
+2025-08-25 00:39:13,985 - ai_integration - INFO - Generating with mistralai/Mistral-7B-Instruct-v0.2 (attempt 1/2)
+2025-08-25 00:39:14,508 - ai_integration - ERROR - Model not found or access denied: mistralai/Mistral-7B-Instruct-v0.2: 404 Client Error: Not Found for url: https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2 (Request ID: Root=1-68ab635b-019d3bb809b5ab003006156f;adfbf3c7-eb68-4946-b6f1-81c93a271474)
+2025-08-25 00:39:14,508 - ai_integration - ERROR - Permanent error from mistralai/Mistral-7B-Instruct-v0.2: Error: Model mistralai/Mistral-7B-Instruct-v0.2 not found or access denied.
+2025-08-25 00:39:14,508 - ai_integration - INFO - All attempts for mistralai/Mistral-7B-Instruct-v0.2 exhausted, moving on.
+2025-08-25 00:39:14,508 - ai_integration - WARNING - HF models failed or unavailable; trying OpenAI fallback (if configured).
+2025-08-25 00:39:14,508 - ai_integration - ERROR - All model options failed; returning deterministic fallback itinerary.
+2025-08-25 00:39:17,987 - __main__ - INFO - Itinerary generated in 28.64 seconds for Japan
+2025-08-25 00:39:18,005 - utils.pdf_generator - ERROR - Error creating PDF: 'latin-1' codec can't encode character '\u2013' in position 727: ordinal not in range(256)
+2025-08-25 00:39:18,006 - __main__ - ERROR - Error creating PDF: 'latin-1' codec can't encode character '\u2013' in position 727: ordinal not in range(256)
+2025-08-25 00:43:59,304 - primp - INFO - response: https://www.bing.com/search?q=France+travel+guide+2024&pq=France+travel+guide+2024&cc=en 200
+2025-08-25 00:43:59,687 - primp - INFO - response: https://en.wikipedia.org/w/api.php?action=opensearch&profile=fuzzy&limit=1&search=France%20travel%20guide%202024 200
+2025-08-25 00:44:17,319 - vector_store - INFO - Annoy index built successfully
+2025-08-25 00:44:21,406 - ai_integration - INFO - Generating with mistralai/Mistral-7B-Instruct-v0.2 (attempt 1/2)
+2025-08-25 00:44:21,922 - ai_integration - ERROR - Model not found or access denied: mistralai/Mistral-7B-Instruct-v0.2: 404 Client Error: Not Found for url: https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.2 (Request ID: Root=1-68ab648e-76145d97710bdc547e760894;005e4d55-ca7e-4aca-916a-dc0410318539)
+2025-08-25 00:44:21,922 - ai_integration - ERROR - Permanent error from mistralai/Mistral-7B-Instruct-v0.2: Error: Model mistralai/Mistral-7B-Instruct-v0.2 not found or access denied.
+2025-08-25 00:44:21,922 - ai_integration - INFO - All attempts for mistralai/Mistral-7B-Instruct-v0.2 exhausted, moving on.
+2025-08-25 00:44:21,922 - ai_integration - WARNING - HF models failed or unavailable; trying OpenAI fallback (if configured).
+2025-08-25 00:44:21,922 - ai_integration - ERROR - All model options failed; returning deterministic fallback itinerary.
+2025-08-25 00:44:25,502 - __main__ - INFO - Itinerary generated in 29.87 seconds for France
+2025-08-25 00:44:25,518 - utils.pdf_generator - ERROR - Error creating PDF: Character "–" at index 370 in text is outside the range of characters supported by the font used: "helvetica". Please consider using a Unicode font.
+2025-08-25 00:44:25,518 - __main__ - ERROR - Error creating PDF: Character "–" at index 370 in text is outside the range of characters supported by the font used: "helvetica". Please consider using a Unicode font.
+2025-08-25 00:59:42,897 - __main__ - INFO - Using cached itinerary for Japan
+2025-08-25 00:59:42,904 - utils.pdf_generator - ERROR - Error creating PDF: TTF Font file not found: DejaVuSans.ttf
+2025-08-25 00:59:42,905 - __main__ - ERROR - Error creating PDF: TTF Font file not found: DejaVuSans.ttf
+2025-08-25 01:01:32,327 - __main__ - INFO - Using cached itinerary for Japan
+2025-08-25 01:01:32,331 - utils.pdf_generator - ERROR - Error creating PDF: TTF Font file not found: DejaVuSans.ttf
+2025-08-25 01:01:32,333 - __main__ - ERROR - Error creating PDF: TTF Font file not found: DejaVuSans.ttf
+2025-08-25 01:04:10,442 - __main__ - INFO - Using cached itinerary for Japan
+2025-08-25 01:04:10,448 - utils.pdf_generator - ERROR - Error creating PDF: TTF Font file not found: DejaVuSans.ttf
+2025-08-25 01:04:10,450 - __main__ - ERROR - Error creating PDF: TTF Font file not found: DejaVuSans.ttf
+2025-08-25 01:04:47,983 - __main__ - INFO - Using cached itinerary for Japan
+2025-08-25 01:04:47,989 - utils.pdf_generator - ERROR - Error creating PDF: TTF Font file not found: DejaVuSans.ttf
+2025-08-25 01:04:47,990 - __main__ - ERROR - Error creating PDF: TTF Font file not found: DejaVuSans.ttf
+2025-08-25 01:05:42,729 - __main__ - INFO - Using cached itinerary for Paris
+2025-08-25 01:05:42,737 - utils.pdf_generator - ERROR - Error creating PDF: TTF Font file not found: C:\Users\nahar\My Docs\Prc\Plan Your Trip\utils\..\assets\fonts\DejaVuSans.ttf
+2025-08-25 01:05:42,737 - __main__ - ERROR - Error creating PDF: TTF Font file not found: C:\Users\nahar\My Docs\Prc\Plan Your Trip\utils\..\assets\fonts\DejaVuSans.ttf
+2025-08-25 01:07:29,724 - primp - INFO - response: https://en.wikipedia.org/w/api.php?action=opensearch&profile=fuzzy&limit=1&search=Mumbai%20travel%20guide%202024 200
+2025-08-25 01:07:30,176 - primp - INFO - response: https://www.mojeek.com/search?q=Mumbai+travel+guide+2024 200
+2025-08-25 01:08:17,626 - primp - INFO - response: https://www.bing.com/search?q=Mumbai+attractions+hotels+restaurants&pq=Mumbai+attractions+hotels+restaurants&cc=en 200
+2025-08-25 01:08:17,942 - primp - INFO - response: https://en.wikipedia.org/w/api.php?action=opensearch&profile=fuzzy&limit=1&search=Mumbai%20attractions%20hotels%20restaurants 200
+2025-08-25 01:08:32,120 - vector_store - INFO - Annoy index built successfully
+2025-08-25 01:08:36,125 - ai_integration - INFO - Generating with teknium/OpenHermes-2.5-Mistral-7B (attempt 1/2)
+2025-08-25 01:08:36,859 - ai_integration - ERROR - Model not found or access denied: teknium/OpenHermes-2.5-Mistral-7B: 404 Client Error: Not Found for url: https://api-inference.huggingface.co/models/teknium/OpenHermes-2.5-Mistral-7B (Request ID: Root=1-68ab6a3d-4d70e0b973bc511f541e9dd1;b077042f-b4ff-4a09-8266-f41fdcd72300)
+2025-08-25 01:08:36,877 - ai_integration - ERROR - Permanent error from teknium/OpenHermes-2.5-Mistral-7B: Error: Model teknium/OpenHermes-2.5-Mistral-7B not found or access denied.
+2025-08-25 01:08:36,877 - ai_integration - INFO - All attempts for teknium/OpenHermes-2.5-Mistral-7B exhausted, moving on.
+2025-08-25 01:08:36,877 - ai_integration - WARNING - HF models failed or unavailable; trying OpenAI fallback (if configured).
+2025-08-25 01:08:36,877 - ai_integration - ERROR - All model options failed; returning deterministic fallback itinerary.
+2025-08-25 01:08:40,228 - __main__ - INFO - Itinerary generated in 73.56 seconds for Mumbai
+2025-08-25 01:08:40,681 - __main__ - ERROR - Error creating PDF: Character "–" at index 24 in text is outside the range of characters supported by the font used: "times". Please consider using a Unicode font.
+2025-08-26 17:24:46,345 INFO primp: response: https://duckduckgo.com/ 200
+2025-08-26 17:24:46,554 INFO primp: response: https://links.duckduckgo.com/d.js?q=tell+me+the+latest+news+of+today+and+what+are+their+impacts+on+stock+market&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-181054067158638144377947760840127913235&bing_market=wt-WT&ex=-1 202
+2025-08-26 17:24:46,579 WARNING rag: DDG search failed: https://links.duckduckgo.com/d.js?q=tell+me+the+latest+news+of+today+and+what+are+their+impacts+on+stock+market&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-181054067158638144377947760840127913235&bing_market=wt-WT&ex=-1 202 Ratelimit
+2025-08-26 17:24:46,585 INFO root: Built web context for query: tell me the latest news of today and what are their impacts on stock market (len=0)
+2025-08-26 17:26:00,786 INFO primp: response: https://duckduckgo.com/ 200
+2025-08-26 17:26:00,996 INFO primp: response: https://links.duckduckgo.com/d.js?q=plan+a+3+day+trip+for+me+from+delhi+to+khatushyam+and+near+by+places.+I+want+to++have+budget+trip&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-283357508766717072545067947739596559494&bing_market=wt-WT&ex=-1 202
+2025-08-26 17:26:01,013 WARNING rag: DDG search failed: https://links.duckduckgo.com/d.js?q=plan+a+3+day+trip+for+me+from+delhi+to+khatushyam+and+near+by+places.+I+want+to++have+budget+trip&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-283357508766717072545067947739596559494&bing_market=wt-WT&ex=-1 202 Ratelimit
+2025-08-26 17:26:01,013 INFO root: Built web context for query: plan a 3 day trip for me from delhi to khatushyam and near by places. I want to  have budget trip (len=0)
+2025-08-26 17:36:36,630 INFO primp: response: https://duckduckgo.com/ 200
+2025-08-26 17:36:36,878 INFO primp: response: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015443818093698550820452976300796725&bing_market=wt-WT&ex=-1 202
+2025-08-26 17:36:36,878 WARNING rag: DDG search failed: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015443818093698550820452976300796725&bing_market=wt-WT&ex=-1 202 Ratelimit
+2025-08-26 17:36:36,878 INFO root: Context length: 9 for destinations: Paris
+2025-08-26 17:54:21,767 INFO primp: response: https://duckduckgo.com/ 200
+2025-08-26 17:54:21,988 INFO primp: response: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015443818093698550820452976300796725&bing_market=wt-WT&ex=-1 202
+2025-08-26 17:54:22,018 WARNING rag: DDG search failed: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015443818093698550820452976300796725&bing_market=wt-WT&ex=-1 202 Ratelimit
+2025-08-26 17:54:22,019 INFO root: Context length: 9 for destinations: Paris
+2025-08-26 17:56:20,268 INFO primp: response: https://duckduckgo.com/ 200
+2025-08-26 17:56:20,493 INFO primp: response: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015443818093698550820452976300796725&bing_market=wt-WT&ex=-1 202
+2025-08-26 17:56:20,494 WARNING rag: DDG search failed: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015443818093698550820452976300796725&bing_market=wt-WT&ex=-1 202 Ratelimit
+2025-08-26 17:56:20,495 INFO root: Context length: 9 for destinations: Paris
+2025-08-26 17:57:12,535 INFO primp: response: https://duckduckgo.com/ 200
+2025-08-26 17:57:12,752 INFO primp: response: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015443818093698550820452976300796725&bing_market=wt-WT&ex=-1 202
+2025-08-26 17:57:12,785 WARNING rag: DDG search failed: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015443818093698550820452976300796725&bing_market=wt-WT&ex=-1 202 Ratelimit
+2025-08-26 17:57:12,786 INFO root: Context length: 9 for destinations: Paris
+2025-08-26 18:13:58,352 INFO primp: response: https://duckduckgo.com/ 200
+2025-08-26 18:13:59,119 INFO primp: response: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015443818093698550820452976300796725&bing_market=wt-WT&ex=-1 202
+2025-08-26 18:13:59,119 WARNING rag: DDG search failed: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015443818093698550820452976300796725&bing_market=wt-WT&ex=-1 202 Ratelimit
+2025-08-26 18:13:59,119 INFO root: Context length: 9 for destinations: Paris
+2025-08-26 18:17:25,032 INFO primp: response: https://duckduckgo.com/ 200
+2025-08-26 18:17:25,254 INFO primp: response: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015443818093698550820452976300796725&bing_market=wt-WT&ex=-1 202
+2025-08-26 18:17:25,254 WARNING rag: DDG search failed: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015443818093698550820452976300796725&bing_market=wt-WT&ex=-1 202 Ratelimit
+2025-08-26 18:17:25,254 INFO root: Context length: 9 for destinations: Paris
+2025-08-26 18:27:24,609 INFO primp: response: https://duckduckgo.com/ 200
+2025-08-26 18:27:24,824 INFO primp: response: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015443818093698550820452976300796725&bing_market=wt-WT&ex=-1 202
+2025-08-26 18:27:24,824 WARNING rag: DDG search failed: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015443818093698550820452976300796725&bing_market=wt-WT&ex=-1 202 Ratelimit
+2025-08-26 18:27:24,824 INFO root: Context length: 9 for destinations: Paris
+2025-08-26 18:48:44,348 INFO primp: response: https://duckduckgo.com/ 200
+2025-08-26 18:48:44,577 INFO primp: response: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015647909840401704032743975459366181&bing_market=wt-WT&ex=-1 202
+2025-08-26 18:48:44,577 WARNING rag: DDG search failed: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015647909840401704032743975459366181&bing_market=wt-WT&ex=-1 202 Ratelimit
+2025-08-26 18:48:44,577 INFO root: Context length: 9 for destinations: Paris
+2025-08-26 18:57:35,382 INFO primp: response: https://duckduckgo.com/ 200
+2025-08-26 18:57:35,602 INFO primp: response: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015647909840401704032743975459366181&bing_market=wt-WT&ex=-1 202
+2025-08-26 18:57:35,602 WARNING rag: DDG search failed: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015647909840401704032743975459366181&bing_market=wt-WT&ex=-1 202 Ratelimit
+2025-08-26 18:57:35,602 INFO root: Context length: 9 for destinations: Paris
+2025-08-26 19:06:20,945 INFO primp: response: https://duckduckgo.com/ 200
+2025-08-26 19:06:21,168 INFO primp: response: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015647909840401704032743975459366181&bing_market=wt-WT&ex=-1 202
+2025-08-26 19:06:21,189 WARNING rag: DDG search failed: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015647909840401704032743975459366181&bing_market=wt-WT&ex=-1 202 Ratelimit
+2025-08-26 19:06:21,189 INFO root: Context length: 9 for destinations: Paris
+2025-08-26 19:06:32,169 INFO root: Initial output length=5054, missing sections=# Estimated Costs, # Planner’s Recommendation
+2025-08-26 19:06:33,217 INFO root: Continuation length=90, still missing=# Estimated Costs, # Planner’s Recommendation
+2025-08-26 19:06:33,880 INFO root: Continuation length=140, still missing=# Planner’s Recommendation
+2025-08-26 19:10:00,869 INFO primp: response: https://duckduckgo.com/ 200
+2025-08-26 19:10:01,106 INFO primp: response: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015647909840401704032743975459366181&bing_market=wt-WT&ex=-1 202
+2025-08-26 19:10:01,138 WARNING rag: DDG search failed: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015647909840401704032743975459366181&bing_market=wt-WT&ex=-1 202 Ratelimit
+2025-08-26 19:10:01,138 INFO root: Context length: 9 for destinations: Paris
+2025-08-26 19:10:13,489 INFO root: Initial output length=5670, missing sections=# Trip Overview, # Planner’s Recommendation
+2025-08-26 19:10:15,180 INFO root: Continuation length=638, still missing=# Planner’s Recommendation
+2025-08-26 19:10:18,194 INFO root: Continuation length=1155, still missing=# Planner’s Recommendation
+2025-08-26 19:26:39,541 INFO primp: response: https://duckduckgo.com/ 200
+2025-08-26 19:26:39,780 INFO primp: response: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015647909840401704032743975459366181&bing_market=wt-WT&ex=-1 202
+2025-08-26 19:26:39,782 WARNING rag: DDG search failed: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112015647909840401704032743975459366181&bing_market=wt-WT&ex=-1 202 Ratelimit
+2025-08-26 19:26:39,785 INFO root: Context length: 9 for destinations: Paris
+2025-08-26 19:26:56,395 INFO root: Initial output length=5537, missing sections=# Planner’s Recommendation
+2025-08-26 19:26:57,652 INFO root: Continuation length=481, still missing=
+2025-08-26 19:33:10,752 INFO primp: response: https://duckduckgo.com/ 200
+2025-08-26 19:33:10,994 INFO primp: response: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112016014260863932890016805835216926485&bing_market=wt-WT&ex=-1 202
+2025-08-26 19:33:10,994 WARNING rag: DDG search failed: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112016014260863932890016805835216926485&bing_market=wt-WT&ex=-1 202 Ratelimit
+2025-08-26 19:33:10,994 INFO root: Context length: 9 for destinations: Paris
+2025-08-26 19:33:23,220 INFO root: Initial output length=5379, missing sections=# Planner’s Recommendation
+2025-08-26 19:33:24,854 INFO root: Continuation length=510, still missing=
+2025-08-26 19:37:09,978 INFO primp: response: https://duckduckgo.com/ 200
+2025-08-26 19:37:10,220 INFO primp: response: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112016014260863932890016805835216926485&bing_market=wt-WT&ex=-1 202
+2025-08-26 19:37:10,220 WARNING rag: DDG search failed: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112016014260863932890016805835216926485&bing_market=wt-WT&ex=-1 202 Ratelimit
+2025-08-26 19:37:10,220 INFO root: Context length: 9 for destinations: Paris
+2025-08-26 19:37:23,223 INFO root: Initial output length=5782, missing sections=# Estimated Costs, # Planner’s Recommendation
+2025-08-26 19:37:28,470 INFO root: Continuation length=1442, still missing=
+2025-08-26 19:56:07,881 INFO primp: response: https://duckduckgo.com/ 200
+2025-08-26 19:56:08,112 INFO primp: response: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112016014260863932890016805835216926485&bing_market=wt-WT&ex=-1 202
+2025-08-26 19:56:08,140 WARNING rag: DDG search failed: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112016014260863932890016805835216926485&bing_market=wt-WT&ex=-1 202 Ratelimit
+2025-08-26 19:56:08,140 INFO root: Context length: 9 for destinations: Paris
+2025-08-26 19:56:19,206 INFO root: Initial output length=5517, missing sections=# Estimated Costs, # Planner’s Recommendation
+2025-08-26 19:56:22,024 INFO root: Continuation length=1219, still missing=
+2025-08-26 19:58:01,209 INFO primp: response: https://duckduckgo.com/ 200
+2025-08-26 19:58:01,439 INFO primp: response: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112016014260863932890016805835216926485&bing_market=wt-WT&ex=-1 202
+2025-08-26 19:58:01,439 WARNING rag: DDG search failed: https://links.duckduckgo.com/d.js?q=Paris+travel+guide+attractions+tickets+opening+hours+prices+neighborhoods+best+time+local+food+safety&kl=wt-wt&l=wt-wt&p=&s=0&df=&vqd=4-112016014260863932890016805835216926485&bing_market=wt-WT&ex=-1 202 Ratelimit
+2025-08-26 19:58:01,439 INFO root: Context length: 9 for destinations: Paris
+2025-08-26 19:58:13,224 INFO root: Initial output length=5151, missing sections=# Packing & Prep Checklist, # Estimated Costs, # Planner’s Recommendation
+2025-08-26 19:58:17,912 INFO root: Continuation length=2070, still missing=

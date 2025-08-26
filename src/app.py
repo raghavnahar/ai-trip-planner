@@ -1,516 +1,386 @@
-import streamlit as st
-import sys
 import os
-
-# Add the parent directory to sys.path so Python can find 'utils'
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-from dotenv import load_dotenv
-from search import WebSearch
-from knowledge_processor import KnowledgeProcessor
-from ai_integration import ItineraryGenerator
-from utils.pdf_generator import create_pdf
-from utils.caching import cache_itinerary, get_cached_itinerary
-
-import logging
-from datetime import datetime
+import re
 import time
-
-# Configure logging
+import requests
+import streamlit as st
+from bs4 import BeautifulSoup
+from dotenv import load_dotenv
+from duckduckgo_search import DDGS
+from rag import build_context_with_retrieval
+import logging
 logging.basicConfig(
+    filename=os.path.join(os.path.dirname(os.path.dirname(__file__)), 'app.log'),
     level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler("app.log"),
-        logging.StreamHandler()
-    ]
+    format='%(asctime)s %(levelname)s %(name)s: %(message)s'
 )
-logger = logging.getLogger(__name__)
+from huggingface_hub import InferenceClient
+from geopy.geocoders import Nominatim
+from geopy.distance import geodesic
+from pdf_utils import create_pdf
 
-# Load environment variables
 load_dotenv()
 
-# Initialize components
-search_tool = WebSearch()
-knowledge_processor = KnowledgeProcessor()
-itinerary_generator = ItineraryGenerator()
+st.set_page_config(page_title="AI Trip Planner", page_icon="🧭", layout="centered")
 
-# Initialize session state variables
-if 'itinerary' not in st.session_state:
-    st.session_state.itinerary = None
-if 'search_results' not in st.session_state:
-    st.session_state.search_results = None
-if 'destination_info' not in st.session_state:
-    st.session_state.destination_info = None
-if 'knowledge_processed' not in st.session_state:
-    st.session_state.knowledge_processed = False
-if 'user_input' not in st.session_state:
-    st.session_state.user_input = {}
-if 'generation_start_time' not in st.session_state:
-    st.session_state.generation_start_time = None
+HF_TOKEN = os.getenv("HF_TOKEN") or st.secrets.get("HF_TOKEN") if hasattr(st, "secrets") else None
+DEFAULT_MODEL = os.getenv("HF_MODEL_ID", "HuggingFaceH4/zephyr-7b-beta")
 
-# App configuration
-st.set_page_config(
-    page_title="✈️ AI Trip Planner Pro",
-    page_icon="✈️",
-    layout="wide",
-    initial_sidebar_state="expanded"
+@st.cache_resource
+def get_client(token: str | None):
+    return InferenceClient(token=token)
+
+client = get_client(HF_TOKEN)
+
+st.title("🧭 AI Trip Planner — Free & Smart")
+st.caption("✨ Build a realistic, budget-aware itinerary with fresh web context")
+# Branding footer (animated hearts)
+st.markdown(
+    "<div style='text-align:center; font-size:14px; margin-top:6px;'>"
+    "<span style='animation:pulse 1.2s infinite; color:#e25555;'>❤️</span> "
+    "Created with care by <b>Raghav Nahar</b> — AI Consultant"
+    "</div>"
+    "<style>@keyframes pulse {0%{transform:scale(1)}50%{transform:scale(1.2)}100%{transform:scale(1)}}</style>",
+    unsafe_allow_html=True,
 )
-# Create a placeholder for the preloader
-preloader = st.empty()
 
-# Inject custom CSS and show styled preloader inside the placeholder
-with preloader.container():
-    st.markdown("""
-        <style>
-        .centered-spinner {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 80vh;
-            font-family: 'Segoe UI', sans-serif;
-            font-size: 2rem;
-            color: #2c3e50;
-            font-weight: 600;
-            animation: fadeIn 1s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from {opacity: 0;}
-            to {opacity: 1;}
-        }
-        </style>
-        <div class='centered-spinner'>🚀 Launching your AI Trip Planner Pro...</div>
-    """, unsafe_allow_html=True)
+@st.cache_resource
+def get_geocoder():
+    return Nominatim(user_agent="trip_planner_ui")
 
-    with st.spinner("Initializing the app..."):
-        time.sleep(2)
+geocoder = get_geocoder()
 
-# Clear the preloader
-preloader.empty()
-# preloader code ends here 
+def geocode_place(place: str):
+    if not place:
+        return None
+    try:
+        loc = geocoder.geocode(place, timeout=10)
+        if loc:
+            return (loc.latitude, loc.longitude, loc.address)
+    except Exception:
+        return None
+    return None
 
-# main code begin here 
-# Custom CSS for better UI
-st.markdown("""
-<style>
-    .main-header {
-        font-size: 3rem;
-        color: #1f4e79;
-        text-align: center;
-        margin-bottom: 1rem;
-    }
-    .sub-header {
-        font-size: 1.5rem;
-        color: #2e75b6;
-        border-bottom: 2px solid #2e75b6;
-        padding-bottom: 0.5rem;
-        margin-top: 1.5rem;
-    }
-    .success-box {
-        background-color: #dff0d8;
-        border: 1px solid #d6e9c6;
-        border-radius: 4px;
-        padding: 15px;
-        margin-bottom: 20px;
-    }
-    .info-box {
-        background-color: #d9edf7;
-        border: 1px solid #bce8f1;
-        border-radius: 4px;
-        padding: 15px;
-        margin-bottom: 20px;
-    }
-    .stProgress > div > div > div > div {
-        background-color: #2e75b6;
-    }
-    .download-btn {
-        background-color: #2e75b6;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-        margin-top: 10px;
-    }
-    .download-btn:hover {
-        background-color: #1f4e79;
-    }
-</style>
-""", unsafe_allow_html=True)
+def validate_dates(start, end):
+    if start >= end:
+        return "Start date must be before end date."
+    if (end - start).days > 60:
+        return "Please limit trip duration to 60 days."
+    return None
 
-# App title and description
-st.markdown('<h1 class="main-header">✈️ AI Trip Planner Pro</h1>', unsafe_allow_html=True)
-st.markdown("""
-<div style='text-align: center; margin-bottom: 2rem;'>
-    Craft your perfect itinerary with AI-powered travel planning enhanced with real-time information!
-</div>
-""", unsafe_allow_html=True)
+with st.form("trip_form"):
+    st.markdown("### 📝 Trip Details")
+    c1, c2 = st.columns(2)
+    with c1:
+        source = st.text_input("🏁 Source city (start/end)*", placeholder="e.g., Delhi, India")
+        destination = st.text_input("📍 Destination(s)*", placeholder="e.g., Paris, France or Paris, Lyon")
+        start_date = st.date_input("📅 Start date*")
+        end_date = st.date_input("📅 End date*")
+        num_people = st.number_input("👥 Number of people*", min_value=1, value=2, step=1)
+        age_group = st.selectbox("🧑‍🤝‍🧑 Average age group*", ["18–25", "25–35", "35–50", "50+", "Family with kids"]) 
+    with c2:
+        currency_choice = st.radio("💱 Show prices in", ["INR", "USD", "Both"], index=2)
+        budget = st.number_input("💰 Total budget (optional)", min_value=0, value=0, step=10000)
+        travel_style = st.radio("🚗 Travel style (if no budget)", ["Budget-friendly", "Moderate", "Lavish"], index=1)
+        accommodation_type = st.multiselect("🏨 Accommodation type", ["Hotel", "Hostel", "Apartment", "Resort", "Homestay"]) 
+        accommodation_style = st.selectbox("🎯 Accommodation style", ["Budget", "Mid-range", "Luxury", "Boutique", "Family-friendly"]) 
+    interests = st.multiselect("🎡 Interests", [
+        "History & Culture", "Adventure", "Food & Wine", "Nature & Wildlife",
+        "Shopping", "Nightlife", "Relaxation", "Photography"
+    ])
+    preferences = st.text_area("🧾 Specific preferences (dietary, must-see, pace, mobility, etc.)")
+    c3, c4 = st.columns(2)
+    with c3:
+        internet_required = st.checkbox("🌐 Internet required", value=True)
+        sim_card_required = st.checkbox("📶 Local SIM/eSIM required", value=True)
+    with c4:
+        travel_insurance = st.checkbox("🛡️ Travel insurance", value=True)
+        special_assistance = st.checkbox("♿ Special assistance", value=False)
+    submitted = st.form_submit_button("✨ Generate Itinerary")
 
-# Sidebar for information and controls
-with st.sidebar:
-    # Inject custom CSS for welcome message
-    st.markdown("""
-        <style>
-        .welcome-box {
-            background-color: #f0f8ff;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            font-family: 'Segoe UI', sans-serif;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            animation: fadeIn 1s ease-in-out;
-        }
-        .welcome-box h3 {
-            margin: 0;
-            font-size: 1.4rem;
-            color: #1f77b4;
-            font-weight: 700;
-        }
-        .welcome-box p {
-            margin-top: 5px;
-            font-size: 1rem;
-            color: #555;
-        }
-        @keyframes fadeIn {
-            from {opacity: 0;}
-            to {opacity: 1;}
-        }
-        </style>
-        <div class='welcome-box'>
-            <h3>Welcome to Raghav's AI Trip Planner</h3>
-            <p>Plan your dream trip with ease and intelligence ✈️</p>
-        </div>
-    """, unsafe_allow_html=True)
 
-    # Existing sidebar content
-    st.markdown("### About This App")
-    st.markdown("""
-    <div class='info-box'>
-    This app uses AI enhanced with RAG (Retrieval-Augmented Generation) 
-    to create personalized travel itineraries with up-to-date information.
-    </div>
-    """, unsafe_allow_html=True)
+def ddg_search(query: str, max_results: int = 6):
+    try:
+        with DDGS() as ddgs:
+            return list(ddgs.text(query, max_results=max_results))
+    except Exception:
+        return []
 
-    st.markdown("### How It Works")
-    steps = [
-        "1. Enter your travel preferences",
-        "2. We search for current information",
-        "3. AI creates your perfect itinerary",
-        "4. Download and enjoy your trip!"
-    ]
-    for step in steps:
-        st.markdown(f"📌 {step}")
 
-    st.markdown("---")
-    st.markdown("""
-    <div style='background-color: #fcf8e3; border-left: 4px solid #f0ad4e; padding: 10px;'>
-    <strong>Disclaimer:</strong> This itinerary is generated by an AI. 
-    While we use real-time information, please verify details before your trip.
-    </div>
-    """, unsafe_allow_html=True)
+def fetch_page_text(url: str, max_chars: int = 3500) -> str:
+    try:
+        headers = {"User-Agent": "Mozilla/5.0"}
+        r = requests.get(url, headers=headers, timeout=10)
+        r.raise_for_status()
+        soup = BeautifulSoup(r.text, "html.parser")
+        for tag in soup(["script", "style", "nav", "footer", "header", "aside"]):
+            tag.decompose()
+        text = soup.get_text(" ")
+        text = re.sub(r"\s+", " ", text).strip()
+        return text[:max_chars]
+    except Exception:
+        return ""
 
-    
-    # # Show app status
-    # st.markdown("---")
-    # st.markdown("### App Status")
-    # if st.session_state.generation_start_time:
-    #     elapsed = time.time() - st.session_state.generation_start_time
-    #     st.metric("Generation Time", f"{elapsed:.1f} seconds")
-    
-    # # Debug info (collapsible)
-    # with st.expander("Debug Information"):
-    #     if st.session_state.user_input:
-    #         st.json(st.session_state.user_input)
-    #     st.write("Session state keys:", list(st.session_state.keys()))
 
-# User input form
-with st.form("travel_form"):
-    st.markdown('<div class="sub-header">Trip Details</div>', unsafe_allow_html=True)
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        source = st.text_input("Source City*", placeholder="e.g., Delhi, India", 
-                              help="Your starting point for the journey")
-        destination = st.text_input("Destination(s)*", placeholder="e.g., Paris, France",
-                                  help="Where you want to travel to")
-        start_date = st.date_input("Start Date*", 
-                                  help="When your trip begins")
-        end_date = st.date_input("End Date*", 
-                                help="When your trip ends")
-        num_people = st.number_input("Number of People*", min_value=1, value=1, step=1,
-                                    help="How many people are traveling")
-        
-    with col2:
-        age_group = st.selectbox("Average Age Group*", 
-                               ["Solo Traveler", "18-25", "25-35", "35-50", "50+", "Family with Kids"],
-                               help="Age range of travelers")
-        
-        budget = st.number_input("Total Budget (optional)", min_value=0, value=0, step=100,
-                                help="Your total budget for the trip")
-        currency = st.selectbox("Currency", ["USD", "INR", "EUR", "GBP"],
-                               help="Preferred currency for cost estimates")
-        
-        if budget == 0:
-            travel_style = st.radio("How do you prefer to travel?", 
-                                  ("Budget-Friendly", "Moderate", "Lavish"),
-                                  help="Your travel style preference")
-        else:
-            travel_style = f"Custom budget: {budget}"
-            
-        interests = st.multiselect("Interests (select all that apply)", 
-                                 ["History & Culture", "Adventure & Sports", "Food & Wine", 
-                                  "Nature & Wildlife", "Shopping", "Nightlife", "Relaxation"],
-                                 help="Your interests to personalize the itinerary")
-    
-    # New fields for accommodation preferences
-    st.markdown('<div class="sub-header">Accommodation Preferences</div>', unsafe_allow_html=True)
-    acc_col1, acc_col2 = st.columns(2)
-    with acc_col1:
-        accommodation_type = st.multiselect("Preferred accommodation types",
-                                          ["Hotel", "Hostel", "Apartment Rental", "Resort", "Homestay"],
-                                          help="Types of accommodation you prefer")
-    with acc_col2:
-        accommodation_style = st.selectbox("Accommodation style",
-                                         ["Any", "Budget", "Mid-range", "Luxury", "Boutique"],
-                                         help="Style of accommodation you prefer")
-    
-    preferences = st.text_area("Any specific preferences? (e.g., must-visit places, dietary restrictions, 'no flights', etc.)", 
-                             placeholder="e.g., I'm vegetarian, I want to avoid crowded places...",
-                             help="Any special requirements or preferences")
-    
-    # New section for travel requirements
-    st.markdown('<div class="sub-header">Travel Requirements</div>', unsafe_allow_html=True)
-    req_col1, req_col2 = st.columns(2)
-    with req_col1:
-        internet_required = st.checkbox("Internet connectivity required",
-                                      help="Do you need internet access during your trip?")
-        sim_card_required = st.checkbox("Local SIM card needed",
-                                      help="Do you need a local SIM card?")
-    with req_col2:
-        travel_insurance = st.checkbox("Interested in travel insurance",
-                                     help="Are you interested in travel insurance?")
-        special_assistance = st.checkbox("Require special assistance",
-                                       help="Do you require any special assistance?")
-    
-    submitted = st.form_submit_button("🚀 Generate My Itinerary!", use_container_width=True)
+def build_web_context(query: str, top_k: int = 3) -> str:
+    results = ddg_search(query, max_results=8)
+    blocks = []
+    count = 0
+    for res in results:
+        if count >= top_k:
+            break
+        url = res.get("href") or res.get("link") or ""
+        title = res.get("title") or "Source"
+        snippet = res.get("body") or ""
+        body = fetch_page_text(url) if url else ""
+        if body or snippet:
+            count += 1
+            blocks.append(f"---\nTitle: {title}\nURL: {url}\nSnippet: {snippet}\nExtract: {body}\n")
+        time.sleep(0.4)
+    return "\n".join(blocks)
 
-# Check for cached itinerary before processing
-def check_cache(user_input):
-    cache_key = f"{user_input.get('source', '')}_{user_input.get('destination', '')}_{user_input.get('start_date', '')}_{user_input.get('end_date', '')}"
-    cached_data = get_cached_itinerary(cache_key)
-    return cached_data
+MAX_NEW_TOKENS = 1500
+TEMPERATURE = 0.9
 
-if submitted:
-    # Basic validation
-    if not destination or not source:
-        st.error("Please enter both source and destination.")
-    elif start_date >= end_date:
-        st.error("End date must be after start date.")
-    else:
-        # Calculate trip duration
-        duration = (end_date - start_date).days
-        
-        # Check if trip duration is realistic for the distance
-        # This is a simplified check - in a real app, you'd use a distance API
-        is_international = True  # Simplified assumption
-        min_recommended_days = 3 if is_international else 1
-        
-        if duration < min_recommended_days:
-            st.warning(f"For a trip from {source} to {destination}, we recommend at least {min_recommended_days} days to fully enjoy the experience. Your current itinerary is only {duration} days.")
-        # Store user input
-        st.session_state.user_input = {
-            "source": source,
-            "destination": destination,
-            "start_date": start_date,
-            "end_date": end_date,
-            "num_people": num_people,
-            "age_group": age_group,
-            "budget": budget,
-            "currency": currency,
-            "travel_style": travel_style,
-            "interests": interests,
-            "preferences": preferences,
-            "accommodation_type": accommodation_type,
-            "accommodation_style": accommodation_style,
-            "internet_required": internet_required,
-            "sim_card_required": sim_card_required,
-            "travel_insurance": travel_insurance,
-            "special_assistance": special_assistance,
-            "duration": duration
-        }
-        
-        # Check cache first
-        cache_key = f"{source}_{destination}_{start_date}_{end_date}"
-        cached_itinerary = check_cache(st.session_state.user_input)
-        
-        if cached_itinerary:
-            st.session_state.itinerary = cached_itinerary
-            st.success("✅ Using cached itinerary from previous similar request!")
-            logger.info(f"Using cached itinerary for {destination}")
-        else:
-            # Start timing
-            st.session_state.generation_start_time = time.time()
-            
-            # Show progress
-            progress_bar = st.progress(0)
-            status_text = st.empty()
-            
-            status_text.text("Searching for destination information...")
-            progress_bar.progress(25)
-            
-            with st.spinner('🌍 Searching for current information about your destination...'):
-                # Get current information about the destination
-                destination_info = search_tool.get_destination_info(destination)
-                st.session_state.destination_info = destination_info
-            
-            status_text.text("Processing information...")
-            progress_bar.progress(50)
-            
-            with st.spinner('📚 Processing information and building knowledge base...'):
-                # Process the information and add to knowledge base
-                knowledge_processor.process_destination(destination, destination_info)
-                st.session_state.knowledge_processed = True
-            
-            status_text.text("Finding relevant information...")
-            progress_bar.progress(75)
-            
-            with st.spinner('🔍 Finding the most relevant information for your trip...'):
-                # Get relevant information for the user's specific request
-                relevant_info = knowledge_processor.get_relevant_info(st.session_state.user_input)
-            
-            status_text.text("Generating your itinerary...")
-            progress_bar.progress(90)
-            
-            with st.spinner('🧠 Generating your personalized itinerary...'):
-                # Generate the itinerary
-                itinerary = itinerary_generator.generate_itinerary(
-                    st.session_state.user_input, 
-                    relevant_info
-                )
-                st.session_state.itinerary = itinerary
-                
-                # Cache the itinerary
-                cache_itinerary(cache_key, itinerary)
-            
-            progress_bar.progress(100)
-            status_text.empty()
-            
-            # Log generation time
-            generation_time = time.time() - st.session_state.generation_start_time
-            logger.info(f"Itinerary generated in {generation_time:.2f} seconds for {destination}")
-            
-            st.success("✅ Itinerary generated successfully!")
-            st.balloons()
-
-# Display the itinerary if it exists
-if st.session_state.itinerary:
-    st.markdown("---")
-    st.markdown('<div class="sub-header">Your Personalized Itinerary</div>', unsafe_allow_html=True)
-    
-    # Create expandable sections for better organization
-    with st.expander("View Full Itinerary", expanded=True):
-        st.markdown(st.session_state.itinerary)
-    
-    # Add download buttons
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        # Text download
-        itinerary_text = st.session_state.itinerary
-        st.download_button(
-            label="📄 Download as Text",
-            data=itinerary_text,
-            file_name=f"{st.session_state.user_input.get('destination', 'itinerary')}_plan.txt",
-            mime="text/plain",
-            use_container_width=True
+def generate_text(model_id: str, prompt: str, max_new_tokens: int, temperature: float) -> str:
+    # First try text generation; if unsupported, fall back to chat completion
+    try:
+        return client.text_generation(
+            model='google/gemma-2-9b-it',
+            prompt=prompt,
+            max_new_tokens=max_new_tokens,
+            temperature=temperature,
+            top_p=0.9,
         )
-    
-    with col2:
-        # PDF download
-        pdf_file = create_pdf(
-            st.session_state.itinerary, 
-            st.session_state.user_input.get('destination', 'Destination'),
-            st.session_state.user_input
-        )
-        with open(pdf_file, "rb") as file:
-            st.download_button(
-                label="📘 Download as PDF",
-                data=file,
-                file_name=f"{st.session_state.user_input.get('destination', 'itinerary')}_itinerary.pdf",
-                mime="application/pdf",
-                use_container_width=True
+    except Exception:
+        # Try chat completion format
+        try:
+            messages = [
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": prompt},
+            ]
+            out = client.chat_completion(
+                model='google/gemma-2-9b-it',
+                messages=messages,
+                max_tokens=max_new_tokens,
+                temperature=temperature,
+                top_p=0.9,
             )
-        # Clean up the temporary file
-        os.unlink(pdf_file)
+            # Normalize different return shapes
+            choices = getattr(out, "choices", None)
+            if choices and len(choices) > 0:
+                msg = getattr(choices[0], "message", None)
+                if msg is not None:
+                    content = getattr(msg, "content", None)
+                    if isinstance(content, str):
+                        return content
+            if isinstance(out, dict):
+                ch = out.get("choices") or []
+                if ch:
+                    content = (ch[0].get("message") or {}).get("content")
+                    if isinstance(content, str):
+                        return content
+            return str(out)
+        except Exception as e2:
+            raise e2
 
-# Display intermediate steps if needed
-if st.session_state.destination_info and not st.session_state.itinerary:
-    with st.expander("Preview of information found"):
-        st.text(st.session_state.destination_info[:2000] + "..." 
-                if len(st.session_state.destination_info) > 2000 
-                else st.session_state.destination_info)
+model_id = 'google/gemma-2-9b-it'
 
-# Add information about the process
-with st.expander("How This Works"):
-    st.markdown("""
-    This app uses a technique called RAG (Retrieval-Augmented Generation):
-    
-    1. **Retrieval**: We search the web for current information about your destination
-    2. **Processing**: We process this information and store it in a knowledge base
-    3. **Augmentation**: We find the most relevant information for your specific request
-    4. **Generation**: We use AI to create a personalized itinerary
-    
-    This approach combines the power of AI with real-time information for more accurate results.
-    """)
+REQUIRED_SECTIONS = [
+    "# Trip Overview",
+    "# Transport Plan",
+    "# Stay Options",
+    "# Day-by-Day Itinerary",
+    "# Must-Try Food",
+    "# Tickets & Pre-bookings",
+    "# Packing & Prep Checklist",
+    "# Estimated Costs",
+    "# Planner’s Recommendation",
+]
 
-# Add feedback section
-st.markdown("---")
-st.markdown('<div class="sub-header">Your Feedback</div>', unsafe_allow_html=True)
-feedback = st.selectbox("How would you rate this itinerary?", 
-                       ["", "⭐ Excellent", "👍 Good", "😐 Average", "👎 Poor"])
-if feedback:
-    feedback_text = st.text_area("Additional comments (optional)")
-    if st.button("Submit Feedback"):
-        # Log feedback
-        logger.info(f"Feedback: {feedback}, Comments: {feedback_text}")
-        st.success("Thank you for your feedback! It helps us improve the service.")
-
-# Footer
-st.markdown("---")
-# Inject custom footer with styling
-st.markdown("""
-    <style>
-    .custom-footer {
-        text-align: center;
-        color: #6c757d;
-        margin-top: 3rem;
-        font-family: 'Segoe UI', sans-serif;
-        animation: fadeIn 1s ease-in-out;
+def _missing_sections(text: str) -> list[str]:
+    lower_text = text.lower()
+    missing = []
+    aliases = {
+        "# Trip Overview": ["# trip overview"],
+        "# Transport Plan": ["# transport plan"],
+        "# Stay Options": ["# stay options"],
+        "# Day-by-Day Itinerary": ["# day-by-day itinerary", "# day by day itinerary"],
+        "# Must-Try Food": ["# must-try food", "# must try food", "# food"],
+        "# Tickets & Pre-bookings": ["# tickets & pre-bookings", "# tickets and pre-bookings", "# tickets"],
+        "# Packing & Prep Checklist": ["# packing & prep checklist", "# packing checklist"],
+        "# Estimated Costs": ["# estimated costs", "# costs"],
+        "# Planner’s Recommendation": ["# planner’s recommendation", "# planners recommendation", "# planner recommendation"],
     }
-    .custom-footer h2 {
-        margin: 0.2rem 0;
-        font-size: 1.8rem;
-        font-weight: 700;
-        color: #343a40;
-    }
-    .custom-footer p {
-        margin: 0;
-        font-size: 1.1rem;
-        font-weight: 500;
-        color: #6c757d;
-    }
-    @keyframes fadeIn {
-        from {opacity: 0;}
-        to {opacity: 1;}
-    }
-    </style>
+    for section, keys in aliases.items():
+        if not any(k in lower_text for k in keys):
+            missing.append(section)
+    return missing
 
-    <div class='custom-footer'>
-        <p>Made with ❤️</p>
-        <h2>Raghav Nahar</h2>
-        <p>AI Consultant</p>
-    </div>
-""", unsafe_allow_html=True)
+def generate_full_itinerary(model_id: str, base_prompt: str) -> str:
+    parts: list[str] = []
+    # First pass
+    first = generate_text(model_id, base_prompt, MAX_NEW_TOKENS, TEMPERATURE)
+    parts.append(first if isinstance(first, str) else str(first))
+    miss = _missing_sections(parts[0])
+    logging.info("Initial output length=%d, missing sections=%s", len(parts[0]), ", ".join(miss))
+    # Up to two continuations
+    for _ in range(2):
+        if not miss:
+            break
+        # Provide recent context so the model can continue seamlessly
+        so_far = "\n\n".join(parts)
+        tail = so_far[-4000:]  # include last chunk of text as context
+        cont_prompt = (
+            "You are continuing an itinerary in Markdown. Below is the content generated so far.\n\n"
+            f"EXISTING ITINERARY (partial):\n{tail}\n\n"
+            "Continue by writing ONLY the remaining sections with the same headings and formatting.\n"
+            f"Sections still missing: {', '.join(miss)}\n"
+            "Do not ask the user for the existing text; continue directly.\n"
+            "Do not repeat any sections already covered."
+        )
+        cont = generate_text(model_id, cont_prompt, MAX_NEW_TOKENS, TEMPERATURE)
+        cont_str = cont if isinstance(cont, str) else str(cont)
+        parts.append(cont_str)
+        miss = _missing_sections("\n\n".join(parts))
+        logging.info("Continuation length=%d, still missing=%s", len(cont_str), ", ".join(miss))
+    return "\n\n".join(parts)
+if submitted:
+    if not source or not destination.strip():
+        st.error("Please enter both source and destination(s).")
+        st.stop()
+    date_err = validate_dates(start_date, end_date)
+    if date_err:
+        st.error(date_err)
+        st.stop()
+    destinations = [d.strip() for d in destination.split(',') if d.strip()]
+    if not destinations:
+        st.error("Please provide at least one valid destination.")
+        st.stop()
+    # Geocode validation
+    src_geo = geocode_place(source)
+    if not src_geo:
+        st.error(f"Could not locate source: {source}. Please check spelling.")
+        st.stop()
+    dest_geos = []
+    invalid_dests = []
+    for d in destinations:
+        g = geocode_place(d)
+        if g:
+            dest_geos.append(g)
+        else:
+            invalid_dests.append(d)
+    if invalid_dests:
+        st.error(f"Could not locate: {', '.join(invalid_dests)}. Please correct them.")
+        st.stop()
+    # Feasibility advisory
+    days = (end_date - start_date).days
+    try:
+        distance_km = geodesic((src_geo[0], src_geo[1]), (dest_geos[0][0], dest_geos[0][1])).km
+    except Exception:
+        distance_km = None
+    feas_note = None
+    if distance_km is not None:
+        if distance_km > 1500 and days < 3:
+            feas_note = f"Very short for intercontinental distance (~{int(distance_km)} km). Consider 3–5 days."
+        elif 500 < distance_km <= 1500 and days < 2:
+            feas_note = f"Trip distance is ~{int(distance_km)} km; consider at least 2–3 days."
+    if feas_note:
+        st.warning(f"Feasibility note: {feas_note}")
+
+    # Build research context
+    composed_context = ""
+    with st.spinner("🔎 Gathering fresh web context..."):
+        blocks = []
+        for d in destinations:
+            q = f"{d} travel guide attractions tickets opening hours prices neighborhoods best time local food safety"
+            blocks.append(f"## {d}\n" + build_context_with_retrieval(q, k=6))
+        composed_context = "\n\n".join(blocks)
+    logging.info("Context length: %d for destinations: %s", len(composed_context), ", ".join(destinations))
+
+    # Build prompt
+    currency_directive = currency_choice
+    budget_line = f"Approximate budget: {budget} {currency_choice if currency_choice != 'Both' else 'INR & USD'}" if budget and budget > 0 else f"Travel style: {travel_style or 'Moderate'}"
+
+    user_input = {
+        "source": source,
+        "destination": ", ".join(destinations),
+        "start_date": str(start_date),
+        "end_date": str(end_date),
+        "num_people": num_people,
+        "age_group": age_group,
+        "budget": budget,
+        "currency": currency_choice,
+        "travel_style": travel_style,
+        "interests": interests,
+        "preferences": preferences,
+        "accommodation_type": accommodation_type,
+        "accommodation_style": accommodation_style,
+        "internet_required": internet_required,
+        "sim_card_required": sim_card_required,
+        "travel_insurance": travel_insurance,
+        "special_assistance": special_assistance,
+        "duration": (end_date - start_date).days,
+    }
+    prompt = f"""
+You are an expert travel planner with deep knowledge of global destinations. Create a highly detailed, practical, and personalized travel itinerary based on the user's inputs and the current information provided.
+
+USER INPUTS
+- Source: {user_input['source']}
+- Destination(s): {user_input['destination']}
+- Dates: {user_input['start_date']} to {user_input['end_date']} (days: {days})
+- People: {user_input['num_people']}
+- Average age: {user_input['age_group']}
+- {budget_line}
+- Interests: {', '.join(user_input['interests']) if user_input['interests'] else 'General sightseeing'}
+- Specific preferences: {user_input['preferences'] or 'None'}
+- Accommodation: {', '.join(user_input['accommodation_type']) if user_input['accommodation_type'] else 'Any'} — {user_input['accommodation_style']}
+- Connectivity: Internet={user_input['internet_required']}, SIM/eSIM={user_input['sim_card_required']}
+- Insurance: {user_input['travel_insurance']}, Special assistance: {user_input['special_assistance']}
+- Currency display: {currency_directive}
+
+RESEARCH (recent web snippets; may be partial)
+{composed_context}
+
+REQUIREMENTS
+- Plan end-to-end Source → Destination(s) → Source respecting dates and realistic transfers.
+- Include transport per leg with sample timings and fare ranges in {currency_directive}; suggest booking sites/passes.
+- Stays: 2–3 options per destination across budget tiers (budget, mid, premium) with neighborhoods and typical nightly prices.
+- Must-visit places, sightseeing, leisure activities, authentic local food and specialties.
+- Tickets & pre-bookings: explicitly list items needing reservations or timed entry with indicative prices.
+- Packing & prep: travel gear, eSIM/SIM/connectivity, local transport apps, important contacts, nearest airports/railway stations.
+- Costs: itemized rough estimate per day and final total (show in INR and USD or both per selection).
+- If the trip seems too short for distances, add a concise "Planner’s recommendation" suggesting more sensible time.
+- If they have more than enough time, suggest nearby places to visit.
+- Include important links: transport booking sites, emergency contacts, and any pre-booking pages.
+- If local SIMs may not work at destination, suggest reliable eSIM or connectivity options.
+
+FORMAT (Markdown)
+# Trip Overview
+# Transport Plan (with timings and sample fares)
+# Stay Options (by destination and budget tier)
+# Day-by-Day Itinerary (dates; morning/afternoon/evening)
+# Must-Try Food & Specialties
+# Tickets & Pre-bookings
+# Packing & Prep Checklist
+# Estimated Costs (daily + final total in requested currencies)
+# Planner’s Recommendation (only if applicable)
+"""
+
+    with st.spinner("🧩 Assembling your itinerary..."):
+        try:
+            text = generate_full_itinerary(model_id, prompt)
+        except Exception as e:
+            st.error(f"Model call failed: {e}")
+            st.stop()
+    st.subheader("🗺️ Itinerary")
+    text_str = text if isinstance(text, str) else str(text)
+    st.markdown(text_str)
+    # Download options
+    st.download_button(
+        "⬇️ Download as PDF",
+        data=create_pdf(text_str, user_input),
+        file_name="itinerary.pdf",
+        mime="application/pdf",
+    )
+
+
