@@ -72,7 +72,7 @@ streamlit run src/app.py
 ---
 
 ## 🙌 Credits
-Built with care ❤️ by **Raghav Nahar - AI Consultant**
+Built with care ❤️ by **Raghav Nahar - AI Consultant**  
 Powered by Hugging Face, Streamlit, and open-source travel data.
 
 ## 📌 Customization  
