@@ -77,10 +77,9 @@ Powered by Hugging Face, Streamlit, and open-source travel data.
 
 ## 📌 Customization  
 
-- ✏️ Update **`index.html`** to change text and content.  
-- 🖼️ Replace the profile image and project images inside **`assets/images/`**.  
-- 🎨 Modify colors, fonts, and layout in **`style.css`**.  
-- ⚡ Adjust interactions and animations in **`script.js`**.  
+- ✏️ Update the code/prompts as per requirements.  
+- 🖼️ Replace the model with the preferred model.
+- 🎨 Modify colors, fonts, and layout.  
 
 ## 📫 Connect With Me  
 
